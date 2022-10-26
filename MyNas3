@@ -1,0 +1,28 @@
+#!/bin/sh
+echo "Mount And Unmount My NAS"
+echo "===================================================="
+echo " "
+echo " "
+echo "Please wait system will check for mount or umount ....... "
+
+if [ -d "/mnt/netgear" ]
+then
+    echo "Directory /path/to/dir exists."
+else
+    echo "Error: Directory /path/to/dir does not exists."
+    echo "Create Folder Netgear"
+    sudo mkdir /mnt/netgear
+fi
+
+if grep "netgear" /etc/mtab &> /dev/null; then
+    grep "netgear" /etc/mtab | awk '{print "Umount mynas on "$2}'
+    sudo umount /mnt/netgear
+else
+    echo "Mount mynas ...."
+    sudo mount -t nfs 192.168.1.220:/netgear /mnt/netgear && echo "mynas is now mounted" || echo "unable to mount mynas"
+fi
+echo " "
+echo "DONE !"
+echo " "
+read -p "Press enter to close this terminal"
+exit
